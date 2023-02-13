@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models.Mappers;
 using Models.Models;
 
@@ -34,6 +35,42 @@ namespace BackEnd.Controllers
                 await context.Products.AddAsync(newProduct);
                 context.SaveChanges();
                 return Ok();
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditProduct([FromBody] ProductDTO product)
+        {
+            try
+            {
+                Product p = mapper.Map<Product>(product);
+                context.Products.Update(p);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteProduct(int id)
+        {       
+            try
+            {
+                Product p = context.Products.Find(id);
+                if (p == null)
+                {
+                    return NotFound();
+                }
+                context.Products.Remove(p);
+                context.SaveChanges();
+                return Ok();
+                    
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
