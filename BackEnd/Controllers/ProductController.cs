@@ -26,6 +26,14 @@ namespace BackEnd.Controllers
             return Ok(products);
         }
 
+        [HttpGet("{id:int}")]
+        public IActionResult GetProductById(int id)
+        {
+            var product = context.Products.Find(id);
+            ProductDTO p = mapper.Map<ProductDTO>(product);
+            return Ok(p);
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostCreate([FromBody] ProductDTO product)
         {
@@ -42,7 +50,7 @@ namespace BackEnd.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditProduct([FromBody] ProductDTO product)
+        public IActionResult EditProduct([FromBody] ProductDTO product)
         {
             try
             {
@@ -57,7 +65,7 @@ namespace BackEnd.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public IActionResult DeleteProduct(int id)
         {       
             try

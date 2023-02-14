@@ -26,7 +26,8 @@ function loadProductList() {
                               <p class="card-text">Units In Stock: ${
                                 item.unitsInStock
                               }</p>
-                              <a href="${""}" class="btn btn-primary">Detail</a>
+                              <a href="edit.html?id=${item.productId}" class="btn btn-primary">Detail</a>
+                              <a href="delete.html?id=${item.productId}" class="btn btn-primary">Delete</a>
                           </div>
                       </div>
                   </div>`;
