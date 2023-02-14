@@ -1,6 +1,5 @@
 $(document).ready(function () {
   loadProductList();
-  getParamUrl();
 });
 
 function loadProductList() {
