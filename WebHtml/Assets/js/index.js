@@ -7,10 +7,15 @@ function loadProductList() {
     url: domain + "/api/product",
     type: "GET",
     dataType: "json",
+    timeout: 5000,
     success: function (response) {
       console.log(response);
       render(response);
     },
+    
+    error: function(response){
+      handleError(response, "Can not load products");
+    }
   });
 
   function render(data) {
@@ -34,4 +39,10 @@ function loadProductList() {
     }
     $("#cardDeck").html(resultRender);
   }
+}
+
+function getParamUrl(){
+  var url_params = new URLSearchParams(window.location.search);
+  param = url_params.get('param');
+  console.log(param); //returns jquery
 }
