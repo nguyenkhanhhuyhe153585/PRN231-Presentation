@@ -1,3 +1,4 @@
+﻿using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Models.Mappers;
 using Models.Models;
@@ -11,6 +12,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
+// Server trả về xml hay json tùy vào request accept header
+builder.Services.AddControllers(options =>
+{
+    //options.OutputFormatters.RemoveType(typeof(SystemTextJsonOutputFormatter));
+    options.RespectBrowserAcceptHeader = true;
+    options.ReturnHttpNotAcceptable = true;
+}).AddXmlSerializerFormatters();
 
 var app = builder.Build();
 

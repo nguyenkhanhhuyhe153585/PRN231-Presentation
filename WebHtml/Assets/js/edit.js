@@ -26,18 +26,24 @@ function editProduct() {
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(dataRequest),
-            success: handleSuccess,
-            error: handleError
+            complete: function(xhr){
+                if(xhr.status == 200){
+                    handleSuccess();
+                }
+                if(xhr.status == 402){
+                    handleError(xhr.responseJSON)
+                }
+            }
         });
 
-        function handleSuccess(response) {
+        function handleSuccess() {
             window.history.back();
         }
 
         function handleError(response) {
             Swal.fire({
                 icon: 'error',
-                title: response.status + " - " + response.statusText
+                title: response.data
             })
 
             console.log(JSON.stringify(response));

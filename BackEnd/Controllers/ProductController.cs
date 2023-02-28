@@ -23,6 +23,7 @@ namespace BackEnd.Controllers
         {
             List<Product> productRaw = context.Products.OrderByDescending(e => e.ProductId).ToList();
             List<ProductDTO> products = mapper.Map<List<ProductDTO>>(productRaw);
+
             return Ok(products);
         }
 
@@ -45,15 +46,20 @@ namespace BackEnd.Controllers
                 return Ok();
             } catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ex);
             }
         }
 
         [HttpPut]
         public IActionResult EditProduct([FromBody] ProductDTO product)
-        {
+        {        
             try
             {
+                if (product.ProductName.Length <= 2)
+                {
+                    return new ObjectResult(new {data= "Product name qua ngan"}) {StatusCode = 402 };
+
+                }
                 Product p = mapper.Map<Product>(product);
                 context.Products.Update(p);
                 context.SaveChanges();
